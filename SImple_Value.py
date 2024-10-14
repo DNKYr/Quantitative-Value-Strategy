@@ -32,7 +32,7 @@ final_dataframe = pd.DataFrame(L, columns = my_columns)
 
 final_dataframe = final_dataframe.sort_values('Price-to-Earning Ratio', ascending = True)
 final_dataframe = final_dataframe.reset_index(drop = True)
-final_dataframe = final_dataframe.drop([50, len(final_dataframe)-1])
-print(final_dataframe)
+final_dataframe = final_dataframe.loc[:50]
+
 
 
