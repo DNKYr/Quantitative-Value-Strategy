@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import xlsxwriter
 import yfinance as yf
 from scipy import stats
 import math
@@ -63,37 +62,3 @@ position_size = value/len(final_dataframe.index)
 for i in range(0, len(final_dataframe.index)):
     final_dataframe.loc[i, 'Number of Shares to Buy'] = math.floor(position_size/final_dataframe.loc[i, 'Price'])
 
-#Turn dataframe into xlsx doc
-with pd.ExcelWriter('Value_Trade.xlsx') as writer:
-    final_dataframe.to_excel(writer, sheet_name = 'Simple Value Trade', index = False)
-    string_format = writer.book.add_format({
-        'border': 1
-    })
-
-    dollar_format = writer.book.add_format({
-        'num_format': '$0.00',
-        'border': 1
-    })
-
-    integer_format = writer.book.add_format({
-        'num_format': '0',
-        'border': 1
-    })
-
-    float_format = writer.book.add_format({
-        'num_format': '0.000',
-        'border': 1
-    })
-
-    column_format = {
-        'A': ['Ticker', string_format],
-        'B': ['Price', dollar_format],
-        'C': ['Price-to-Earning Ratio', float_format],
-        'D': ['Number of Shares to Buy', integer_format]
-    }
-
-    worksheet = writer.sheets['Recommended Trade']
-
-    for column in column_format.keys():
-        worksheet.set_column(f'{column}:{column}', 18, column_format[column][1])
-        worksheet.write(f'{column}1', column_format[column][0], string_format)
